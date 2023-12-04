@@ -27,28 +27,28 @@ long part_1(const char *const input) {
     acc += res;
     res = 0;
     start = end + 1;
-  } while (UNLIKELY(input[end] != '\0'));
+  } while (LIKELY(input[end] != '\0'));
   return acc;
 }
 
 #define NUMBERS 9
 #define LEN_CHARS_WITH_TERM 6
 
-struct p2dict_t {
+struct p2dict {
   char dict[NUMBERS][LEN_CHARS_WITH_TERM];
   int lens[NUMBERS];
 };
 
-__attribute__((const)) static inline const struct p2dict_t build_p2dict() {
-  struct p2dict_t dict = {.dict = {"one", "two", "three", "four", "five", "six",
-                                   "seven", "eight", "nine"}};
+__attribute__((const)) static inline const struct p2dict build_p2dict() {
+  struct p2dict dict = {.dict = {"one", "two", "three", "four", "five", "six",
+                                 "seven", "eight", "nine"}};
   for (int i = 0; i < NUMBERS; i++)
     dict.lens[i] = strlen(dict.dict[i]);
   return dict;
 }
 
 long part_2(char *const input) {
-  const struct p2dict_t dict = build_p2dict();
+  const struct p2dict dict = build_p2dict();
   const char *const pat = "(one|two|three|four|five|six|seven|eight|nine)";
   regex_t regex;
   regmatch_t match[2];
