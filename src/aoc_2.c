@@ -31,21 +31,16 @@ a:
   switch (*term) {
   case '\0':
   case '\n': {
-    bool ok = true;
-    for (int i = 0; i < 3; i++) {
-      if (vals[i] > (12 + i)) {
-        ok = false;
-        break;
-      }
-    }
-    if (ok) {
-      const char *row_num_start = row_cursor + 5;
-      const char *row_num_end = row_first_num_start + 1;
-      char row_num[5];
-      memset(row_num, '\0', 5);
-      memcpy(row_num, row_num_start, row_num_end - row_num_start - 1);
-      total += (long)atoi(row_num);
-    }
+    for (int i = 0; i < 3; i++)
+      if (vals[i] > (12 + i))
+        goto c;
+    const char *row_num_start = row_cursor + 5;
+    const char *row_num_end = row_first_num_start + 1;
+    char row_num[5];
+    memset(row_num, '\0', 5);
+    memcpy(row_num, row_num_start, row_num_end - row_num_start - 1);
+    total += (long)atoi(row_num);
+  c:
     if (UNLIKELY(*term == '\0') || UNLIKELY(*(term + 1) == '\0')) {
       return total;
     }

@@ -1,8 +1,8 @@
 part_1:
   push r15
   push r14
-  push r13
   xor r14d, r14d
+  push r13
   push r12
   push rbp
   push rbx
@@ -28,10 +28,10 @@ part_1:
   mov WORD PTR [r12], 0
   mov BYTE PTR [r12+2], 0
   call strchr
+  mov rdx, QWORD PTR [rsp]
   mov rdi, r12
   mov rcx, rax
   mov r15, rax
-  mov rdx, QWORD PTR [rsp]
   sub rcx, rdx
   mov rsi, rdx
   rep movsb
