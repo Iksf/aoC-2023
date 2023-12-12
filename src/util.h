@@ -13,4 +13,8 @@
 #define UNLIKELY(x) __builtin_expect(!!(x), 0L)
 
 void read_file(const char *file_name, char **const buf);
+
+long to_num_signed(const char *str, long n);
+ulong to_num_unsigned(const char *str, long n);
+
 #endif

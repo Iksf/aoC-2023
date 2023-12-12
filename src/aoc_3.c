@@ -27,17 +27,15 @@ symbol_offsets_t make_offsets(const char *const in) {
           .offsets = offsets,
           .len = (ulong)i,
       };
-    } else {
-      ushort v = (ushort)(current - in);
-      offsets[i] = v;
     }
+    ushort v = (ushort)(current - in);
+    offsets[i] = v;
   }
 }
 
 ulong problem_1(const char *const in) {
   const int line_length = strchr(in, '\n') - in;
   const int data_end = strlen(in);
-  char *const buf = calloc(line_length, 1);
   symbol_offsets_t offsets = make_offsets(in);
   printf("%ld\n", offsets.len);
 }

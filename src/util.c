@@ -1,4 +1,5 @@
 #include "util.h"
+#include <ctype.h>
 
 void read_file(const char *const file_name, char **const buf) {
   FILE *fp = NULL;
@@ -33,4 +34,28 @@ cleanup:
   if (!success || *buf == NULL) {
     exit(1);
   }
+}
+
+// atoi without needing null term string
+long to_num_signed(const char *s, long n) {
+  long result = 0;
+  long sign = 1;
+  long i = 0;
+  if (s[0] == '-') {
+    sign = -1;
+    i = 1;
+  }
+  for (; i < n && isdigit(s[i]); ++i)
+    result = result * 10 + (s[i] - '0');
+
+  return result * sign;
+}
+
+ulong to_num_unsigned(const char *s, long n) {
+  long result = 0;
+  long i = 0;
+  for (; i < n && isdigit(s[i]); ++i)
+    result = result * 10 + (s[i] - '0');
+
+  return result;
 }
