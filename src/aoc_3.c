@@ -14,16 +14,16 @@ static inline ulong to_next_symbol(const char **s) {
 }
 
 typedef struct {
-  const ushort *const offsets;
+  const ushort *const offsets; // max fits in a ushort so lets save some space
   const ulong len;
-} offsets_t;
+} symbol_offsets_t;
 
-offsets_t make_offsets(const char *const in) {
+symbol_offsets_t make_offsets(const char *const in) {
   ushort *const offsets = calloc(1000, sizeof(ushort)); // todo
   const char *current = in;
   for (ushort i = 0;; i++) {
-    if (to_next_symbol(&current) != 0) {
-      return (offsets_t){
+    if (UNLIKELY(to_next_symbol(&current) != 0)) {
+      return (symbol_offsets_t){
           .offsets = offsets,
           .len = (ulong)i,
       };
@@ -38,9 +38,7 @@ ulong problem_1(const char *const in) {
   const int line_length = strchr(in, '\n') - in;
   const int data_end = strlen(in);
   char *const buf = calloc(line_length, 1);
-  // len fits in a ushort so lets save some space
-  // ushort *const offsets = calloc(1000, sizeof(ushort)); // todo
-  offsets_t offsets = make_offsets(in);
+  symbol_offsets_t offsets = make_offsets(in);
   printf("%ld\n", offsets.len);
 }
 
