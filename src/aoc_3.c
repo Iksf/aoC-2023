@@ -1,6 +1,6 @@
 #include "util.h"
 
-__attribute_pure__ ulong to_next_symbol(const char **s) {
+static inline ulong to_next_symbol(const char **s) {
   for (int i = 1;; i++) {
     char c = (*s)[i];
     if (c != '.' && c >= '!' && c <= '/') {
@@ -13,12 +13,20 @@ __attribute_pure__ ulong to_next_symbol(const char **s) {
   }
 }
 
-__attribute_pure__ static inline ulong make_offsets(ushort *const offsets,
-                                                    const char *const in) {
+typedef struct {
+  const ushort *const offsets;
+  const ulong len;
+} offsets_t;
+
+offsets_t make_offsets(const char *const in) {
+  ushort *const offsets = calloc(1000, sizeof(ushort)); // todo
   const char *current = in;
   for (ushort i = 0;; i++) {
     if (to_next_symbol(&current) != 0) {
-      return (ulong)i;
+      return (offsets_t){
+          .offsets = offsets,
+          .len = (ulong)i,
+      };
     } else {
       ushort v = (ushort)(current - in);
       offsets[i] = v;
@@ -31,9 +39,9 @@ ulong problem_1(const char *const in) {
   const int data_end = strlen(in);
   char *const buf = calloc(line_length, 1);
   // len fits in a ushort so lets save some space
-  ushort *const offsets = calloc(1000, sizeof(ushort)); // todo
-  const int offset_len = make_offsets(offsets, in);
-  printf("%d\n", offset_len);
+  // ushort *const offsets = calloc(1000, sizeof(ushort)); // todo
+  offsets_t offsets = make_offsets(in);
+  printf("%ld\n", offsets.len);
 }
 
 int main() {
