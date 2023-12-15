@@ -15,28 +15,4 @@
 
 void read_file(const char *file_name, char **const buf);
 
-// atoi without needing null term string
-__attribute__((const)) inline long to_num_signed(const char *s, long n) {
-  long res = 0;
-  long sig = 1;
-  long i = 0;
-  if (s[0] == '-') {
-    sig = -1;
-    i = 1;
-  }
-  for (; i < n && isdigit(s[i]); ++i)
-    res = res * 10 + (s[i] - '0');
-
-  return res * sig;
-}
-
-__attribute__((const)) inline ulong to_num_unsigned(const char *s, long n) {
-  ulong res = 0;
-  long i = 0;
-  for (; i < n && isdigit(s[i]); ++i)
-    res = res * 10 + (s[i] - '0');
-
-  return res;
-}
-
 #endif
